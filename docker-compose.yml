@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: /Users/rifatulislam/Projects/project-prescription/prescription-backend
+    ports:
+      - "8080:8080"
+    environment:
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin}
+      JWT_SECRET: ${JWT_SECRET:-change-me-please-32chars}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+
+  frontend:
+    build:
+      context: /Users/rifatulislam/Projects/project-prescription/prescription-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080}
+    depends_on:
+      backend:
+        condition: service_started
+
